@@ -54,6 +54,7 @@ public class FakeTank_Manager : MonoBehaviour {
 		net = GetComponent<Tank_Network> ();
 		timeRemaining = maxTime;
 		voiceover = FindObjectOfType<TutorialManager>();
+		StartCoroutine ("SendNetworkUpdate");
 	}
 
 	public void StartupTank(){
@@ -126,11 +127,19 @@ public class FakeTank_Manager : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		if (!net.useNetwork | !online) {
-			return;
+		
+
+	}
+
+	IEnumerator SendNetworkUpdate(){
+		while(true) {
+			if (net.useNetwork && net.connected) {
+				net.SendSpeed (crankL * 100f, crankR * 100f);
+				Debug.Log ("network tick");
+			}
+			yield return new WaitForSeconds (0.2f);
 		}
 
-		net.SendSpeed (crankL * 100f, crankR * 100f);
 
 	}
 

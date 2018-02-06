@@ -61,7 +61,9 @@ public class Tank_Network : MonoBehaviour {
 			}
 		}
 
-		connected = sender.Connected;
+		if (useNetwork) {
+			connected = sender.Connected;
+		}
 	}
 
 	public void Connect(){
